@@ -1,343 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PATHFINDER — Your Smartest Commute Intelligence</title>
-  <meta name="description" content="PATHFINDER is your AI-powered commute co-pilot. Find the shortest, fastest, and greenest routes with real-time traffic, crowd heatmaps, and carbon tracking." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PATHFINDER — Intelligent Navigation</title>
+  <meta name="description" content="PATHFINDER: AI-powered commute intelligence. Shortest routes, real-time traffic, CO₂ tracking."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <!-- Ambient background -->
-  <div class="ambient-bg">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar" id="sidebar">
 
-  <!-- ========== HEADER ========== -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="logo">
-        <div class="logo-icon">
-          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="16" r="14" stroke="url(#grad1)" stroke-width="2"/>
-            <path d="M16 8 L20 16 L16 24 L12 16 Z" fill="url(#grad1)"/>
-            <circle cx="16" cy="16" r="3" fill="#0ff"/>
-            <defs>
-              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#00ffff"/>
-                <stop offset="100%" stop-color="#7c3aed"/>
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <span class="logo-text">PATHFINDER</span>
+    <!-- Brand -->
+    <div class="brand">
+      <div class="brand-logo">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="url(#lg1)"/>
+          <circle cx="12" cy="9" r="2.5" fill="white"/>
+          <defs>
+            <linearGradient id="lg1" x1="5" y1="2" x2="19" y2="22" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#3B82F6"/>
+              <stop offset="1" stop-color="#6366F1"/>
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
-      <nav class="nav">
-        <a href="#" class="nav-link active" id="nav-map">Map</a>
-        <a href="#" class="nav-link" id="nav-history">History</a>
-        <a href="#" class="nav-link" id="nav-eco">Eco Stats</a>
-        <a href="#" class="nav-link" id="nav-buddy">Buddy</a>
-      </nav>
-      <div class="header-actions">
-        <div class="streak-badge" title="Eco-Commute Streak">
-          <span class="streak-icon">🔥</span>
-          <span class="streak-count" id="streak-count">5</span>
-        </div>
-        <div class="avatar" id="user-avatar">A</div>
+      <div>
+        <div class="brand-name">PATHFINDER</div>
+        <div class="brand-tagline">Navigation Intelligence</div>
+      </div>
+      <div class="live-pill"><span class="live-dot"></span>LIVE</div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-box">
+      <div class="search-field" id="from-field">
+        <div class="search-dot green-dot"></div>
+        <input id="from-input" class="search-input" type="text" value="Connaught Place, Delhi" placeholder="From" autocomplete="off"/>
+      </div>
+      <div class="search-divider">
+        <div class="dash-line"></div>
+        <button class="swap-btn" id="swap-btn" title="Swap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+          </svg>
+        </button>
+      </div>
+      <div class="search-field" id="to-field">
+        <div class="search-dot red-dot"></div>
+        <input id="to-input" class="search-input" type="text" value="Cyber City, Gurugram" placeholder="To" autocomplete="off"/>
       </div>
     </div>
-  </header>
 
-  <!-- ========== MAIN APP ========== -->
-  <main class="app-layout">
+    <!-- Mode Selector -->
+    <div class="mode-row" id="mode-tabs">
+      <button class="mode-btn active" data-mode="drive" id="mode-drive">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+        <span>Drive</span>
+      </button>
+      <button class="mode-btn" data-mode="transit" id="mode-transit">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-3.58-4-8-4zm0 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm5-7H7V6h10v3z"/></svg>
+        <span>Transit</span>
+      </button>
+      <button class="mode-btn" data-mode="bike" id="mode-bike">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg>
+        <span>Bike</span>
+      </button>
+      <button class="mode-btn" data-mode="walk" id="mode-walk">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.89 19.38l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg>
+        <span>Walk</span>
+      </button>
+    </div>
 
-    <!-- LEFT PANEL -->
-    <aside class="left-panel">
+    <!-- Find Button -->
+    <button class="find-btn" id="find-route-btn">
+      <span id="btn-text">Find Route</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
 
-      <!-- Search Section -->
-      <section class="search-section">
-        <h1 class="search-heading">Where to?</h1>
-        <div class="input-group" id="from-group">
-          <div class="input-dot dot-green"></div>
-          <input type="text" id="from-input" class="route-input" placeholder="Your location" value="Connaught Place, Delhi" autocomplete="off" />
+    <!-- AI Insight -->
+    <div class="ai-card" id="ai-tip-box">
+      <div class="ai-card-header">
+        <div class="ai-badge">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="#3B82F6"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          AI Coach
         </div>
-        <div class="input-connector">
-          <div class="connector-line"></div>
-          <button class="swap-btn" id="swap-btn" title="Swap locations">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
-          </button>
-        </div>
-        <div class="input-group" id="to-group">
-          <div class="input-dot dot-red"></div>
-          <input type="text" id="to-input" class="route-input" placeholder="Destination" value="Cyber City, Gurugram" autocomplete="off" />
-        </div>
-        <button class="find-route-btn" id="find-route-btn">
-          <span class="btn-text">Find Smartest Route</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-      </section>
+        <span class="ai-time" id="ai-tip-time">Now</span>
+      </div>
+      <p class="ai-text" id="ai-tip-text">Leave in <b>8 minutes</b> to skip peak traffic on MG Road — saves <b>14 min</b>.</p>
+    </div>
 
-      <!-- Mode Selector -->
-      <section class="mode-section">
-        <p class="section-label">Travel Mode</p>
-        <div class="mode-tabs" id="mode-tabs">
-          <button class="mode-tab active" data-mode="drive" id="mode-drive">
-            <span class="mode-icon">🚗</span><span>Drive</span>
-          </button>
-          <button class="mode-tab" data-mode="transit" id="mode-transit">
-            <span class="mode-icon">🚇</span><span>Transit</span>
-          </button>
-          <button class="mode-tab" data-mode="bike" id="mode-bike">
-            <span class="mode-icon">🚴</span><span>Bike</span>
-          </button>
-          <button class="mode-tab" data-mode="walk" id="mode-walk">
-            <span class="mode-icon">🚶</span><span>Walk</span>
-          </button>
-        </div>
-      </section>
+    <!-- Routes -->
+    <div class="routes-wrap">
+      <div class="section-header">
+        <span class="section-title">Smart Routes</span>
+        <span class="routes-count" id="routes-count">4 routes</span>
+      </div>
+      <div id="route-cards"></div>
+    </div>
 
-      <!-- AI Tip Box -->
-      <section class="ai-tip-box" id="ai-tip-box">
-        <div class="ai-tip-header">
-          <span class="ai-chip">⚡ AI Coach</span>
-          <span class="ai-time" id="ai-tip-time">Now</span>
-        </div>
-        <p class="ai-tip-text" id="ai-tip-text">Leave in <strong>8 minutes</strong> to avoid peak traffic on MG Road. Estimated savings: <strong>14 min</strong>.</p>
-      </section>
+    <!-- Stats Strip -->
+    <div class="stats-strip">
+      <div class="stat-item">
+        <div class="stat-value" id="co2-value">1.2 kg</div>
+        <div class="stat-label">CO₂ Saved</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-value" id="time-value">47 min</div>
+        <div class="stat-label">Time Saved</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-value streak-val">🔥 <span id="streak-value">5</span></div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+    </div>
 
-      <!-- Route Cards -->
-      <section class="routes-section" id="routes-section">
-        <div class="routes-header">
-          <p class="section-label">Smart Routes</p>
-          <span class="live-badge">
-            <span class="live-dot"></span> LIVE
-          </span>
-        </div>
-        <div class="route-cards" id="route-cards">
-          <!-- Generated by JS -->
-        </div>
-      </section>
+  </aside>
 
-      <!-- Commute Insights -->
-      <section class="insights-section">
-        <p class="section-label">Today's Insights</p>
-        <div class="insight-grid">
-          <div class="insight-card" id="insight-co2">
-            <div class="insight-icon">🌿</div>
-            <div class="insight-value" id="co2-value">1.2 kg</div>
-            <div class="insight-label">CO₂ Saved</div>
+  <!-- ── MAP ── -->
+  <main class="map-wrap" id="map-wrap">
+    <canvas id="map-canvas"></canvas>
+
+    <!-- Top bar on map -->
+    <div class="map-topbar">
+      <div class="map-topbar-left">
+        <div class="user-chip">
+          <div class="user-avatar">A</div>
+          <div>
+            <div class="user-name">Amrit Agrawal</div>
+            <div class="user-sub">Delhi, India</div>
           </div>
-          <div class="insight-card" id="insight-time">
-            <div class="insight-icon">⏱️</div>
-            <div class="insight-value" id="time-value">47 min</div>
-            <div class="insight-label">Time Saved</div>
-          </div>
-          <div class="insight-card" id="insight-streak">
-            <div class="insight-icon">🏆</div>
-            <div class="insight-value" id="streak-value">5 days</div>
-            <div class="insight-label">Eco Streak</div>
-          </div>
-          <div class="insight-card" id="insight-mood">
-            <div class="insight-icon">😊</div>
-            <div class="insight-value" id="mood-value">4.2/5</div>
-            <div class="insight-label">Route Mood</div>
-          </div>
-        </div>
-      </section>
-
-    </aside>
-
-    <!-- CENTER: MAP -->
-    <section class="map-section" id="map-section">
-      <div class="map-container" id="map-container">
-        <canvas id="map-canvas"></canvas>
-
-        <!-- Floating HUD Cards -->
-        <div class="hud-cards">
-          <div class="hud-card hud-eta" id="hud-eta">
-            <div class="hud-card-label">ETA</div>
-            <div class="hud-card-value" id="eta-value">9:41 AM</div>
-            <div class="hud-confidence" id="eta-confidence">
-              <div class="conf-bar-wrap"><div class="conf-bar" style="width:91%"></div></div>
-              <span>91% confidence</span>
-            </div>
-          </div>
-          <div class="hud-card hud-traffic" id="hud-traffic">
-            <div class="hud-card-label">Traffic</div>
-            <div class="hud-card-value traffic-moderate" id="traffic-level">Moderate</div>
-            <div class="hud-sub" id="traffic-sub">NH-48 congested</div>
-          </div>
-          <div class="hud-card hud-crowd" id="hud-crowd">
-            <div class="hud-card-label">Metro Crowd</div>
-            <div class="crowd-bar-container">
-              <div class="crowd-bar" id="crowd-bar" style="width:80%"></div>
-            </div>
-            <div class="hud-sub" id="crowd-sub">Platform 3 — 80% full</div>
-          </div>
-        </div>
-
-        <!-- Map Overlay Controls -->
-        <div class="map-controls">
-          <button class="map-ctrl-btn" id="ctrl-zoom-in" title="Zoom In">+</button>
-          <button class="map-ctrl-btn" id="ctrl-zoom-out" title="Zoom Out">−</button>
-          <button class="map-ctrl-btn" id="ctrl-locate" title="My Location">◎</button>
-          <button class="map-ctrl-btn" id="ctrl-layers" title="Layers">⊞</button>
-        </div>
-
-        <!-- Crowd Heatmap Toggle -->
-        <div class="heatmap-toggle">
-          <button class="toggle-btn active" id="toggle-heatmap">🌡 Heatmap</button>
-          <button class="toggle-btn" id="toggle-eco">🌿 Eco Routes</button>
-          <button class="toggle-btn" id="toggle-buddy">👥 Buddy</button>
-        </div>
-
-        <!-- Rerouting Alert -->
-        <div class="reroute-alert hidden" id="reroute-alert">
-          <span class="reroute-icon">⚠️</span>
-          <span id="reroute-msg">Accident ahead on NH-48 — Rerouting in <strong id="reroute-countdown">10</strong>s…</span>
-          <button class="reroute-now-btn" id="reroute-now-btn">Reroute Now</button>
         </div>
       </div>
-    </section>
+      <div class="map-topbar-right">
+        <button class="map-pill-btn active" id="toggle-heatmap">Heatmap</button>
+        <button class="map-pill-btn" id="toggle-eco">Eco</button>
+        <button class="map-pill-btn" id="toggle-buddy">Buddies</button>
+      </div>
+    </div>
 
-    <!-- RIGHT PANEL -->
-    <aside class="right-panel">
-
-      <!-- Buddy Commute -->
-      <section class="buddy-section">
-        <p class="section-label">Buddy Commute</p>
-        <div class="buddy-list" id="buddy-list">
-          <div class="buddy-item">
-            <div class="buddy-avatar" style="background:linear-gradient(135deg,#06b6d4,#7c3aed)">R</div>
-            <div class="buddy-info">
-              <div class="buddy-name">Rahul</div>
-              <div class="buddy-location">3 stops away — Blue Line</div>
-            </div>
-            <div class="buddy-status online"></div>
-          </div>
-          <div class="buddy-item">
-            <div class="buddy-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">P</div>
-            <div class="buddy-info">
-              <div class="buddy-name">Priya</div>
-              <div class="buddy-location">Same route — 5 min behind</div>
-            </div>
-            <div class="buddy-status online"></div>
-          </div>
-          <div class="buddy-item">
-            <div class="buddy-avatar" style="background:linear-gradient(135deg,#10b981,#06b6d4)">S</div>
-            <div class="buddy-info">
-              <div class="buddy-name">Sneha</div>
-              <div class="buddy-location">Offline</div>
-            </div>
-            <div class="buddy-status offline"></div>
+    <!-- ETA Card -->
+    <div class="eta-card" id="eta-card">
+      <div class="eta-inner">
+        <div class="eta-main">
+          <div class="eta-time" id="eta-value">–</div>
+          <div class="eta-label">Estimated Arrival</div>
+        </div>
+        <div class="eta-sep"></div>
+        <div class="eta-meta">
+          <div class="eta-meta-row" id="eta-dist">– km away</div>
+          <div class="eta-meta-row conf-row">
+            <div class="conf-track"><div class="conf-fill" id="conf-fill" style="width:0%"></div></div>
+            <span id="conf-pct">–%</span>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
 
-      <!-- Carbon Tracker -->
-      <section class="carbon-section">
-        <p class="section-label">Carbon Tracker</p>
-        <div class="carbon-card">
-          <div class="carbon-ring-wrap">
-            <svg class="carbon-ring" viewBox="0 0 100 100">
-              <circle class="ring-bg" cx="50" cy="50" r="40" />
-              <circle class="ring-fill" cx="50" cy="50" r="40" id="carbon-ring-fill" stroke-dasharray="176 251" />
-            </svg>
-            <div class="carbon-center">
-              <div class="carbon-value" id="carbon-pct">70%</div>
-              <div class="carbon-sub">vs. driving</div>
-            </div>
-          </div>
-          <div class="carbon-stats">
-            <div class="cstat">
-              <span class="cstat-icon">🚗</span>
-              <div><div class="cstat-val" id="drive-co2">3.8 kg</div><div class="cstat-label">Drive CO₂</div></div>
-            </div>
-            <div class="cstat">
-              <span class="cstat-icon">🚇</span>
-              <div><div class="cstat-val" id="transit-co2">0.4 kg</div><div class="cstat-label">Transit CO₂</div></div>
-            </div>
-            <div class="cstat">
-              <span class="cstat-icon">🌱</span>
-              <div><div class="cstat-val" id="saved-co2">3.4 kg</div><div class="cstat-label">Saved Today</div></div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <!-- Traffic + Crowd pills -->
+    <div class="map-status-pills" id="map-status-pills">
+      <div class="status-pill" id="traffic-pill">
+        <div class="pill-dot" id="traffic-dot"></div>
+        <span id="traffic-text">–</span>
+        <span class="pill-sub">traffic</span>
+      </div>
+      <div class="status-pill">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="opacity:.6"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <span id="crowd-pct">–%</span>
+        <span class="pill-sub">crowd</span>
+      </div>
+    </div>
 
-      <!-- Mood Log -->
-      <section class="mood-section">
-        <p class="section-label">Route Mood Log</p>
-        <div class="mood-log" id="mood-log">
-          <div class="mood-entry">
-            <span class="mood-emoji">😊</span>
-            <div class="mood-detail">
-              <div class="mood-route">CP → Cyber City</div>
-              <div class="mood-time">Today, 9:12 AM</div>
-            </div>
-            <div class="mood-stars">★★★★☆</div>
-          </div>
-          <div class="mood-entry">
-            <span class="mood-emoji">😐</span>
-            <div class="mood-detail">
-              <div class="mood-route">Cyber City → CP</div>
-              <div class="mood-time">Yesterday, 6:45 PM</div>
-            </div>
-            <div class="mood-stars">★★★☆☆</div>
-          </div>
-          <div class="mood-entry">
-            <span class="mood-emoji">😊</span>
-            <div class="mood-detail">
-              <div class="mood-route">CP → Cyber City</div>
-              <div class="mood-time">Jun 13, 9:08 AM</div>
-            </div>
-            <div class="mood-stars">★★★★★</div>
-          </div>
-        </div>
-        <p class="mood-insight" id="mood-insight">😊 You've rated this route <strong>4 times</strong> — it's your happiest commute!</p>
-      </section>
+    <!-- Zoom controls -->
+    <div class="zoom-ctrl">
+      <button class="zoom-btn" id="ctrl-zoom-in">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+      </button>
+      <div class="zoom-sep"></div>
+      <button class="zoom-btn" id="ctrl-zoom-out">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>
+      </button>
+    </div>
 
-      <!-- Weather & Forward Tip -->
-      <section class="forecast-section">
-        <p class="section-label">Commute Forecast</p>
-        <div class="forecast-card" id="forecast-card">
-          <div class="forecast-weather">
-            <span class="weather-icon">⛅</span>
-            <div>
-              <div class="weather-temp">34°C</div>
-              <div class="weather-desc">Partly Cloudy</div>
-            </div>
-          </div>
-          <div class="forecast-tips">
-            <div class="ftip">🚦 Peak traffic at <strong>9–10 AM</strong> on NH-48</div>
-            <div class="ftip">🚇 Metro crowd drops after <strong>9:30 AM</strong></div>
-            <div class="ftip">🌧 Rain likely after <strong>5 PM</strong> — plan accordingly</div>
-          </div>
-        </div>
-      </section>
+    <!-- Locate me -->
+    <button class="locate-btn" id="ctrl-locate" title="My Location">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 3.06V1h-2v2.06A8.994 8.994 0 003.06 11H1v2h2.06A8.994 8.994 0 0011 20.94V23h2v-2.06A8.994 8.994 0 0020.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+    </button>
 
-    </aside>
+    <!-- Reroute Banner -->
+    <div class="reroute-banner hidden" id="reroute-alert">
+      <div class="reroute-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+      </div>
+      <div class="reroute-text">
+        <b>Incident on NH-48</b>
+        <span>Auto-rerouting in <b id="reroute-countdown">10</b>s</span>
+      </div>
+      <button class="reroute-act" id="reroute-now-btn">Reroute Now</button>
+      <button class="reroute-dismiss" id="reroute-dismiss">✕</button>
+    </div>
 
   </main>
 
-  <!-- ========== NOTIFICATION TOAST ========== -->
-  <div class="toast-container" id="toast-container"></div>
+  <!-- ── RIGHT PANEL ── -->
+  <aside class="right-panel">
 
-  <!-- ========== ROUTE DETAIL MODAL ========== -->
-  <div class="modal-overlay hidden" id="route-modal">
-    <div class="modal-box">
-      <button class="modal-close" id="modal-close-btn">✕</button>
-      <h2 class="modal-title" id="modal-title">Route Details</h2>
-      <div class="modal-body" id="modal-body"></div>
-      <div class="modal-actions">
-        <button class="btn-start" id="btn-start-nav">▶ Start Navigation</button>
-        <button class="btn-rate" id="btn-rate-route">😊 Rate Route</button>
+    <!-- Buddy Section -->
+    <div class="rp-section">
+      <div class="rp-section-title">Buddy Commute</div>
+      <div class="buddy-list">
+        <div class="buddy-row">
+          <div class="b-av" style="background:linear-gradient(135deg,#3B82F6,#6366F1)">R</div>
+          <div class="b-info">
+            <div class="b-name">Rahul</div>
+            <div class="b-loc">3 stops away · Blue Line</div>
+          </div>
+          <div class="b-status online"></div>
+        </div>
+        <div class="buddy-row">
+          <div class="b-av" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">P</div>
+          <div class="b-info">
+            <div class="b-name">Priya</div>
+            <div class="b-loc">Same route · 5 min behind</div>
+          </div>
+          <div class="b-status online"></div>
+        </div>
+        <div class="buddy-row">
+          <div class="b-av" style="background:linear-gradient(135deg,#6B7280,#9CA3AF)">S</div>
+          <div class="b-info">
+            <div class="b-name">Sneha</div>
+            <div class="b-loc">Offline</div>
+          </div>
+          <div class="b-status offline"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carbon Tracker -->
+    <div class="rp-section">
+      <div class="rp-section-title">Carbon Tracker</div>
+      <div class="carbon-box">
+        <div class="carbon-ring-wrap">
+          <svg class="carbon-svg" viewBox="0 0 80 80">
+            <circle class="cr-bg" cx="40" cy="40" r="32"/>
+            <circle class="cr-fill" cx="40" cy="40" r="32" id="carbon-ring-fill" stroke-dasharray="140 201"/>
+          </svg>
+          <div class="carbon-center-text">
+            <div class="carbon-pct" id="carbon-pct">70%</div>
+            <div class="carbon-pct-label">vs car</div>
+          </div>
+        </div>
+        <div class="carbon-rows">
+          <div class="carbon-row">
+            <span class="carbon-row-icon car-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99z"/></svg>
+            </span>
+            <div class="carbon-row-info">
+              <div class="carbon-row-val" id="drive-co2">3.8 kg</div>
+              <div class="carbon-row-label">Drive</div>
+            </div>
+          </div>
+          <div class="carbon-row">
+            <span class="carbon-row-icon transit-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c-4 0-8 .5-8 4v9.5C4 17.43 5.57 19 7.5 19L6 20.5v.5h12v-.5L16.5 19c1.93 0 3.5-1.57 3.5-3.5V6c0-3.5-3.58-4-8-4z"/></svg>
+            </span>
+            <div class="carbon-row-info">
+              <div class="carbon-row-val" id="transit-co2">0.4 kg</div>
+              <div class="carbon-row-label">Transit</div>
+            </div>
+          </div>
+          <div class="carbon-row">
+            <span class="carbon-row-icon saved-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20C19 20 22 3 22 3c-1 2-8 2-13 5z"/></svg>
+            </span>
+            <div class="carbon-row-info">
+              <div class="carbon-row-val green-val" id="saved-co2">3.4 kg</div>
+              <div class="carbon-row-label">Saved</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mood Log -->
+    <div class="rp-section">
+      <div class="rp-section-title">Mood Log</div>
+      <div class="mood-list">
+        <div class="mood-row">
+          <span class="mood-emoji">😊</span>
+          <div class="mood-info">
+            <div class="mood-route">CP → Cyber City</div>
+            <div class="mood-when">Today, 9:12 AM</div>
+          </div>
+          <div class="mood-stars">★★★★<span style="opacity:.3">★</span></div>
+        </div>
+        <div class="mood-row">
+          <span class="mood-emoji">😐</span>
+          <div class="mood-info">
+            <div class="mood-route">Cyber City → CP</div>
+            <div class="mood-when">Yesterday, 6:45 PM</div>
+          </div>
+          <div class="mood-stars">★★★<span style="opacity:.3">★★</span></div>
+        </div>
+        <div class="mood-row">
+          <span class="mood-emoji">😊</span>
+          <div class="mood-info">
+            <div class="mood-route">CP → Cyber City</div>
+            <div class="mood-when">Jun 13, 9:08 AM</div>
+          </div>
+          <div class="mood-stars">★★★★★</div>
+        </div>
+      </div>
+      <div class="mood-insight">😊 Rated this route <b>4 times</b> — your happiest commute</div>
+    </div>
+
+    <!-- Forecast -->
+    <div class="rp-section">
+      <div class="rp-section-title">Forecast</div>
+      <div class="forecast-box">
+        <div class="forecast-top">
+          <span class="wx-icon">⛅</span>
+          <div>
+            <div class="wx-temp">34°C</div>
+            <div class="wx-cond">Partly Cloudy</div>
+          </div>
+        </div>
+        <div class="forecast-tips">
+          <div class="fc-tip"><span class="fc-dot red-fc"></span>Peak traffic <b>9–10 AM</b> on NH-48</div>
+          <div class="fc-tip"><span class="fc-dot blue-fc"></span>Metro crowd eases after <b>9:30 AM</b></div>
+          <div class="fc-tip"><span class="fc-dot purple-fc"></span>Rain expected after <b>5 PM</b></div>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Toast -->
+  <div id="toast-container"></div>
+
+  <!-- Route Detail Modal -->
+  <div class="modal-bg hidden" id="route-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="modal-title">Route Details</div>
+          <div class="modal-subtitle" id="modal-subtitle"></div>
+        </div>
+        <button class="modal-close-btn" id="modal-close-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-stats" id="modal-stats"></div>
+      <div class="modal-steps" id="modal-body"></div>
+      <div class="modal-footer">
+        <button class="btn-primary" id="btn-start-nav">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Start Navigation
+        </button>
+        <button class="btn-secondary" id="btn-rate-route">Rate Route</button>
       </div>
     </div>
   </div>
